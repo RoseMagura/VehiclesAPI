@@ -32,7 +32,13 @@ public class CarService {
      * @return a list of all vehicles in the CarRepository
      */
     public List<Car> list() {
-        return repository.findAll();
+        List<Car> cars = repository.findAll();
+        for (Car car:
+             cars) {
+            car.setPrice(priceClient.getPrice(car.getId()));
+            car.setLocation(mapsClient.getAddress(car.getLocation()));
+        }
+        return cars;
     }
 
     /**
@@ -45,16 +51,7 @@ public class CarService {
         if(optionalCar.isEmpty()) {
           throw new CarNotFoundException();
         }
-        /**
-         * TODO: Use the Pricing Web client you create in `VehiclesApiApplication`
-         *   to get the price based on the `id` input'
-         * TODO: Set the price of the car
-         * Note: The car class file uses @transient, meaning you will need to call
-         *   the pricing service each time to get the price.
-         */
         Car car = optionalCar.get();
-        car.setPrice(priceClient.getPrice(id));
-        car.setLocation(mapsClient.getAddress(car.getLocation()));
         return car;
     }
 
