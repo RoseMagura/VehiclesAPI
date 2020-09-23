@@ -57,6 +57,19 @@ public class Car {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", condition=" + condition +
+                ", details=" + details +
+                ", location=" + location +
+                ", price='" + price + '\'' +
+                '}';
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
