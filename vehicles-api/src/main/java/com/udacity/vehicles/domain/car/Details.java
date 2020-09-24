@@ -37,6 +37,22 @@ public class Details {
 
     private String externalColor;
 
+    @Override
+    public String toString() {
+        return "{" +
+                "body=" + body +
+                ", model=" + model +
+                ", manufacturer=" + manufacturer.toString() +
+                ", numberOfDoors=" + numberOfDoors +
+                ", fuelType=" + fuelType +
+                ", engine=" + engine +
+                ", mileage=" + mileage +
+                ", modelYear=" + modelYear +
+                ", productionYear=" + productionYear +
+                ", externalColor=" + externalColor +
+                "}";
+    }
+
     public String getBody() {
         return body;
     }

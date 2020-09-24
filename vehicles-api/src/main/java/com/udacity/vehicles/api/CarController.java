@@ -48,18 +48,12 @@ class CarController {
      * Creates a list to store any vehicles.
      * @return list of vehicles
      */
-    @GetMapping
-//    @Produces("application/json")
-//    Resources<Resource<Car>>
-    List<Car>
-    list() {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    Resources<Resource<Car>> list() {
         List<Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
                 .collect(Collectors.toList());
-        System.out.println(resources.toString());
-        System.out.println(carService.list());
-//        return new Resources<>(resources,
-//                linkTo(methodOn(CarController.class).list()).withSelfRel());
-        return carService.list();
+        return new Resources<>(resources,
+                linkTo(methodOn(CarController.class).list()).withSelfRel());
     }
 
     /**
@@ -67,13 +61,10 @@ class CarController {
      * @param id the id number of the given vehicle
      * @return all information for the requested vehicle
      */
-    @GetMapping("/{id}")
-//    @Produces("text/html")
-//    Resource<Car>
-    Car get(@PathVariable Long id) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    Resource<Car> get(@PathVariable Long id) {
         Car car = carService.findById(id);
-//        return assembler.toResource(car);
-        return car;
+        return assembler.toResource(car);
     }
 
     /**
@@ -97,8 +88,7 @@ class CarController {
      */
     @PutMapping("/{id}")
     ResponseEntity<?> put(@PathVariable Long id, @Valid @RequestBody Car car) {
-        Car originalCar = carService.findById(id);
-        Long originalId = originalCar.getId();
+        car.setId(id);
         Car editedCar = carService.save(car);
         Resource<Car> resource = assembler.toResource(editedCar);
         return ResponseEntity.ok(resource);

@@ -62,7 +62,6 @@ public class CarService {
      */
     public Car save(Car car) {
         if (car.getId() != null) {
-            System.out.println("Updating existing car");
             return repository.findById(car.getId())
                     .map(carToBeUpdated -> {
                         carToBeUpdated.setDetails(car.getDetails());
