@@ -6,10 +6,12 @@ import com.udacity.pricing.domain.price.PriceRepository;
 import com.udacity.pricing.service.PricingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -31,7 +33,7 @@ public class PricingServiceApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@MockBean
+	@Mock
 	PricingService pricingService;
 
 	@MockBean
@@ -46,17 +48,9 @@ public class PricingServiceApplicationTests {
 	}
 
 	@Test
-	public void testSetupRepository() {
-		System.out.println(priceRepository.findAll());
-		Iterable<Price> prices = priceRepository.findAll();
-		assertEquals(prices, iterableWithSize(0));
-//		assertNotNull(prices.iterator().next().getVehicleId());
-	}
-
-	@Test
 	public void testGetPriceById() throws Exception {
-		mockMvc.perform(get("/services/price/1"))
+		mockMvc.perform(get("/services/price?vehicleId=1")
+				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
-//				.andExpect(content().string())
 	}
 }
